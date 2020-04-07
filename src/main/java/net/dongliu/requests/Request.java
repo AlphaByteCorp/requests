@@ -2,6 +2,7 @@ package net.dongliu.requests;
 
 import net.dongliu.requests.body.RequestBody;
 import net.dongliu.requests.executor.SessionContext;
+import net.dongliu.requests.auth.Auth;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.io.Serializable;
@@ -40,7 +41,7 @@ public class Request implements Serializable {
     @Nullable
     private final KeyStore keyStore;
     @Nullable
-    private final BasicAuth basicAuth;
+    private final Auth auth;
     @Nullable
     private final SessionContext sessionContext;
     private final URL url;
@@ -61,7 +62,7 @@ public class Request implements Serializable {
         acceptCompress = builder.acceptCompress;
         verify = builder.verify;
         keyStore = builder.keyStore;
-        basicAuth = builder.basicAuth;
+        auth = builder.auth;
         sessionContext = builder.sessionContext;
         keepAlive = builder.keepAlive;
         this.url = builder.url;
@@ -190,12 +191,9 @@ public class Request implements Serializable {
         return keyStore;
     }
 
-    /**
-     * @deprecated use {@link #basicAuth()}
-     */
-    @Deprecated
-    public BasicAuth getBasicAuth() {
-        return basicAuth;
+
+    public Auth getAuth() {
+        return auth;
     }
 
     /**
@@ -294,10 +292,6 @@ public class Request implements Serializable {
 
     public KeyStore keyStore() {
         return keyStore;
-    }
-
-    public BasicAuth basicAuth() {
-        return basicAuth;
     }
 
     public SessionContext sessionContext() {

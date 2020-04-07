@@ -1,7 +1,6 @@
-package net.dongliu.requests;
+package net.dongliu.requests.auth;
 
 
-import java.io.Serializable;
 import java.util.Base64;
 import java.util.Objects;
 
@@ -12,7 +11,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  *
  * @author Liu Dong
  */
-public class BasicAuth implements Serializable {
+public class BasicAuth implements Auth {
     private static final long serialVersionUID = 7453526434365174929L;
     private final String user;
     private final String password;

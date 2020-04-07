@@ -1,12 +1,15 @@
 package net.dongliu.requests;
 
 import net.dongliu.commons.collection.Lists;
+import net.dongliu.requests.auth.BasicAuth;
+import net.dongliu.requests.auth.BearerAuth;
 import net.dongliu.requests.body.Part;
 import net.dongliu.requests.body.RequestBody;
 import net.dongliu.requests.exception.RequestsException;
 import net.dongliu.requests.executor.HttpExecutor;
 import net.dongliu.requests.executor.RequestExecutorFactory;
 import net.dongliu.requests.executor.SessionContext;
+import net.dongliu.requests.auth.Auth;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.io.InputStream;
@@ -41,8 +44,7 @@ public final class RequestBuilder {
     int maxRedirectCount = 5;
     boolean acceptCompress = true;
     boolean verify = true;
-    @Nullable
-    BasicAuth basicAuth;
+    Auth auth;
     @Nullable
     SessionContext sessionContext;
     boolean keepAlive = true;
@@ -68,7 +70,7 @@ public final class RequestBuilder {
         maxRedirectCount = request.maxRedirectCount();
         acceptCompress = request.acceptCompress();
         verify = request.verify();
-        basicAuth = request.basicAuth();
+        auth = request.getAuth();
         sessionContext = request.sessionContext();
         keepAlive = request.keepAlive();
         keyStore = request.keyStore();
@@ -383,7 +385,7 @@ public final class RequestBuilder {
      * Set http basicAuth by BasicAuth(DigestAuth/NTLMAuth not supported now)
      */
     public RequestBuilder basicAuth(String user, String password) {
-        this.basicAuth = new BasicAuth(user, password);
+        this.auth = new BasicAuth(user, password);
         return this;
     }
 
@@ -391,7 +393,17 @@ public final class RequestBuilder {
      * Set http basicAuth by BasicAuth(DigestAuth/NTLMAuth not supported now)
      */
     public RequestBuilder basicAuth(BasicAuth basicAuth) {
-        this.basicAuth = basicAuth;
+        this.auth = basicAuth;
+        return this;
+    }
+
+    public RequestBuilder bearerAuth(String token) {
+        this.auth = new BearerAuth(token);
+        return this;
+    }
+
+    public RequestBuilder bearerAuth(BearerAuth bearerAuth) {
+        this.auth = bearerAuth;
         return this;
     }
 

@@ -157,8 +157,8 @@ class URLConnectionExecutor implements HttpExecutor {
             conn.setRequestProperty(NAME_ACCEPT_ENCODING, "gzip, deflate");
         }
 
-        if (request.basicAuth() != null) {
-            conn.setRequestProperty(NAME_AUTHORIZATION, request.basicAuth().encode());
+        if (request.getAuth() != null) {
+            conn.setRequestProperty(NAME_AUTHORIZATION, request.getAuth().encode());
         }
 
         // set cookies
